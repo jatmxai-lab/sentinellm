@@ -1,0 +1,64 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.eggs/
+build/
+dist/
+
+# Env / secrets
+.env
+.env.*
+!.env.example
+.venv/
+venv/
+
+# uv
+.uv-cache/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Tools
+.ruff_cache/
+.mypy_cache/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Models & data (heavy artifacts; keep small demo samples)
+models/*.onnx
+models/*.bin
+data/*.parquet
+!data/sample_corpus.parquet
+data/*.csv
+ckpt/
+!ckpt/results.json
+*.pt
+*.bin
+
+# Local dev SQLite db
+*.db
+*.sqlite
+*.sqlite3
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+
+sentinellm_execution_plan.md
+sentinellm_lean_plan.md
+sentinellm_plan.md
+
+# Claude Code workspace
+.claude/
+
