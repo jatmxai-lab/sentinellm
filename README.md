@@ -34,7 +34,7 @@ Deployed end-to-end on free tiers ($0/mo).
 The repo ships with seeded demo artifacts so reviewers can see the shape of
 the project without a GPU or external accounts:
 
-- [`data/sample_corpus.parquet`](data/sample_corpus.parquet) — 80 curated rows (clean / toxic / adversarial), the small version of what the data pipeline produces
+- [`data/sample_corpus.parquet`](data/sample_corpus.parquet) — ~2.5k real rows sampled from `google/civil_comments` (stratified, 40% positive), the small version of what the data pipeline produces
 - [`ckpt/results.json`](ckpt/results.json) — sample training metrics (F1 0.89, accuracy 0.94)
 - [`docs/benchmark.md`](docs/benchmark.md) — sample PyTorch vs ONNX speedup table
 
