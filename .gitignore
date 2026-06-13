@@ -37,7 +37,7 @@ models/*.bin
 data/*.parquet
 !data/sample_corpus.parquet
 data/*.csv
-ckpt/
+ckpt/*
 !ckpt/results.json
 *.pt
 *.bin

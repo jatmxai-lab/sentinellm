@@ -1,0 +1,18 @@
+{
+  "model": "distilbert-base-uncased",
+  "epochs": 3,
+  "lr": 2e-05,
+  "train_batch": 32,
+  "max_length": 256,
+  "metrics": {
+    "eval_loss": 0.1842,
+    "eval_accuracy": 0.9384,
+    "eval_f1": 0.8927,
+    "eval_precision": 0.8755,
+    "eval_recall": 0.9107,
+    "eval_runtime": 84.5,
+    "eval_samples_per_second": 236.9,
+    "epoch": 3.0
+  },
+  "note": "Sample metrics for demo purposes. Will be overwritten by real training run."
+}
