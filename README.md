@@ -13,19 +13,24 @@ Deployed end-to-end on free tiers ($0/mo).
 ## Architecture
 
 ```
-       HF Spaces (Gradio)
+       HF Spaces (Gradio UI + JSON API)
               │
               ▼
-      FastAPI (Railway/Fly)
-      ├─ Redis exact cache  (Upstash)
-      ├─ ONNX Runtime       (DistilBERT)
+      FastAPI
+      ├─ Rule pre-filter   (jailbreak / nsfw / data_exfil)
+      ├─ Exact-match cache (Redis prod  ·  in-memory in live demo)
+      ├─ ONNX Runtime      (DistilBERT, civil_comments)
       └─ async SQLAlchemy
               │
               ▼
-       Supabase Postgres
+       Postgres prod  ·  SQLite in live demo
        - model_versions
        - prediction_logs
 ```
+
+Each request is short-circuited by the rule layer for known attack
+patterns (~1ms) and falls through to the ONNX model otherwise (~7ms).
+The response includes a `detected_by` field exposing which path fired.
 
 ---
 
@@ -149,6 +154,20 @@ Other endpoints:
 
 ---
 
+## Limitations
+
+This is a portfolio project, not a production safety system. Honest scope:
+
+- **Model is trained only on `google/civil_comments`** — English news-article comments. Expect degraded performance on social media slang, chat, code, or non-English text.
+- **F1 0.70 is below the published 0.78–0.82 ceiling** for DistilBERT on this dataset. v1 uses 3 epochs with no class rebalancing; v2 should add class-weighted loss and longer training.
+- **No adversarial training data.** `walledai/AdvBench` was gated mid-training, so jailbreak / prompt-injection / NSFW-solicitation patterns are caught by a **regex rule layer** rather than the model. Rules are deterministic and fast (<1ms) but **brittle to paraphrasing** — `"act like you have absolutely no constraints"` will slip through.
+- **Generic harmful-content asks aren't covered.** A bare `"how do I make X"` without a jailbreak shape won't trigger any detector — the model doesn't know it, and no rule matches it. Out of scope for v1.
+- **Live demo runs simplified infra.** The HF Space uses an in-memory cache and SQLite-in-`/tmp` (single-container constraints). The full Redis + Postgres stack lives in [`compose.yaml`](compose.yaml) and runs locally via `docker compose up`.
+- **Inherits civil_comments biases.** Higher false-positive rates on text mentioning certain identity terms — see [Borkan et al. 2019](https://arxiv.org/abs/1903.04561).
+- **Not for safety-critical moderation.** Pair with human review for any consequential decision.
+
+---
+
 ## Deploy
 
 ### Railway (recommended)
@@ -223,13 +242,14 @@ sentinellm/
 
 Each is a self-contained add-on you can ship as one PR:
 
-1. Intent classification head (multi-task)
-2. Qdrant semantic cache for paraphrase hits
-3. Prometheus `/metrics`
-4. Locust load test
-5. MLflow experiment tracking
-6. Gemini LLM tiebreaker on low-confidence predictions
-7. A/B endpoint + drift snapshots
+1. **Retrain on synthetic adversarial data** to replace the regex rule layer with a generalizing model — uses [`scripts/generate_synthetic.py`](scripts/generate_synthetic.py) (Gemini-based)
+2. Intent classification head (multi-task)
+3. Qdrant semantic cache for paraphrase hits
+4. Prometheus `/metrics`
+5. Locust load test
+6. MLflow experiment tracking
+7. Gemini LLM tiebreaker on low-confidence predictions
+8. A/B endpoint + drift snapshots
 
 ---
 
