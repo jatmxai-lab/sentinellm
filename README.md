@@ -4,8 +4,8 @@ Production-shaped toxicity classifier: fine-tuned DistilBERT, ONNX-accelerated,
 served via async FastAPI with a Redis exact-match cache and Postgres logging.
 Deployed end-to-end on free tiers ($0/mo).
 
-- **Live demo:** _add HuggingFace Spaces URL here_
-- **API:** _add Railway/Fly URL here_
+- **Live demo:** [jatmanis1/sentinellm-space](https://huggingface.co/spaces/jatmanis1/sentinellm-space) (Gradio + JSON API)
+- **API docs:** [jatmanis1-sentinellm-space.hf.space/docs](https://jatmanis1-sentinellm-space.hf.space/docs)
 - **Model card:** [jatmanis1/sentinellm-v1](https://huggingface.co/jatmanis1/sentinellm-v1)
 
 ---
