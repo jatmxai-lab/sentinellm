@@ -1,2 +1,8 @@
+fastapi>=0.115
+uvicorn[standard]>=0.32
+pydantic>=2.9
 gradio>=4.44
-httpx>=0.28
+onnxruntime>=1.20
+transformers[sentencepiece]>=4.46
+huggingface_hub>=0.27
+numpy>=1.26,<2.2
