@@ -47,6 +47,7 @@ def export(src: str, out: str, opset: int = 17) -> None:
         },
         opset_version=opset,
         do_constant_folding=True,
+        dynamo=False,
     )
 
     print("Validating parity...")

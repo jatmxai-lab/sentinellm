@@ -19,7 +19,7 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
-from datasets import Dataset
+from datasets import ClassLabel, Dataset
 from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score
 from transformers import (
     AutoModelForSequenceClassification,
@@ -53,6 +53,7 @@ def load_corpus(path: str, test_size: float = 0.1, seed: int = 42) -> tuple[Data
     print(f"Loaded {len(df):,} rows; positive rate {df['label'].mean():.2%}")
 
     ds = Dataset.from_pandas(df[["text", "label"]], preserve_index=False)
+    ds = ds.cast_column("label", ClassLabel(num_classes=2, names=["clean", "toxic"]))
     split = ds.train_test_split(test_size=test_size, seed=seed, stratify_by_column="label")
     return split["train"], split["test"]
 
@@ -116,7 +117,7 @@ def main() -> None:
         args=targs,
         train_dataset=train_ds,
         eval_dataset=test_ds,
-        tokenizer=tokenizer,
+        processing_class=tokenizer,
         data_collator=DataCollatorWithPadding(tokenizer),
         compute_metrics=compute_metrics,
     )
