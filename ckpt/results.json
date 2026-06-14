@@ -6,13 +6,13 @@
   "max_length": 256,
   "metrics": {
     "eval_loss": 0.1641,
-    "eval_accuracy": 0.95235,
-    "eval_f1": 0.7022805373320837,
-    "eval_precision": 0.7007481296758105,
-    "eval_recall": 0.7038196618659988,
-    "threshold": 0.4999999999999999,
+    "eval_accuracy": 0.9524,
+    "eval_f1": 0.7023,
+    "eval_precision": 0.7007,
+    "eval_recall": 0.7038,
+    "threshold": 0.5,
     "epoch": 3.0
   },
-  "note": "3 epochs on ~200k civil_comments train rows. Eval on civil_comments TEST split (20k rows). F1 optimized post-hoc at threshold=0.500.",
+  "note": "3 epochs on ~200k civil_comments train rows. Eval on civil_comments TEST split (20k rows). Threshold sweep found no improvement over default 0.5.",
   "eval_set": "google/civil_comments[test] subsampled to 20000 rows, seed 42"
 }
