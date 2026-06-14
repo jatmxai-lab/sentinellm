@@ -6,7 +6,7 @@ Deployed end-to-end on free tiers ($0/mo).
 
 - **Live demo:** _add HuggingFace Spaces URL here_
 - **API:** _add Railway/Fly URL here_
-- **Model card:** _add HuggingFace Hub URL here_
+- **Model card:** [jatmanis1/sentinellm-v1](https://huggingface.co/jatmanis1/sentinellm-v1)
 
 ---
 
